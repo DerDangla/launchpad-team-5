@@ -1,1 +1,108 @@
-# CI/CD Workflow\nname: CI/CD Pipeline\n\non:\n  push:\n    branches:\n      - main\n      - dev\n  pull_request:\n    branches:\n      - main\n      - dev\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n
+# CI/CD Workflow
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  validate-terraform:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      # Initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # Validate Terraform code
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Lint Terraform files
+      - name: Terraform Lint
+        run: |
+          curl -L https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+          tflint
+
+  plan-terraform:
+    name: Plan Terraform
+    runs-on: ubuntu-latest
+    needs: validate-terraform
+    steps:
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      # Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      # Upload Plan as Artifact
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: tfplan
+          path: tfplan
+
+  apply-terraform:
+    name: Apply Terraform
+    runs-on: ubuntu-latest
+    needs: plan-terraform
+    steps:
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      # Download Plan Artifact
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v3
+        with:
+          name: tfplan
+
+      # Apply Terraform Configuration
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+
+  test-infrastructure:
+    name: Test Infrastructure
+    runs-on: ubuntu-latest
+    needs: apply-terraform
+    steps:
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Run Tests (Placeholder for actual tests)
+      - name: Run Terratest
+        run: |
+          echo "Running infrastructure tests"
+          # Replace this with real Terratest or script-based testing
+          go test ./tests/terraform -v
