@@ -1,4 +1,4 @@
-name: "Terraform Auto Apply - Emander"
+name: "Terraform Auto Apply - emander"
 
 on:
   push:
