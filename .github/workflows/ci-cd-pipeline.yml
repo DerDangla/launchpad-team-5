@@ -1,4 +1,4 @@
-# CI/CD Workflow
+# CI/CD Workflow for Terraform with Secure Password Handling
 name: CI/CD Pipeline
 
 on:
@@ -16,11 +16,11 @@ jobs:
     name: Validate Terraform
     runs-on: ubuntu-latest
     steps:
-      # Checkout repository
+      # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Setup Terraform
+      # Set up Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -30,7 +30,7 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      # Validate Terraform code
+      # Validate Terraform configuration
       - name: Terraform Validate
         run: terraform validate
 
@@ -45,21 +45,23 @@ jobs:
     runs-on: ubuntu-latest
     needs: validate-terraform
     steps:
-      # Checkout repository
+      # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Setup Terraform
+      # Set up Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.7
 
-      # Terraform Plan
+      # Plan Terraform changes
       - name: Terraform Plan
+        env:
+          TF_VAR_master_password: ${{ secrets.DB_MASTER_PASSWORD }} # Inject the secret here
         run: terraform plan -out=tfplan
 
-      # Upload Plan as Artifact
+      # Upload the Terraform plan as an artifact
       - name: Upload Terraform Plan
         uses: actions/upload-artifact@v3
         with:
@@ -71,24 +73,26 @@ jobs:
     runs-on: ubuntu-latest
     needs: plan-terraform
     steps:
-      # Checkout repository
+      # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Setup Terraform
+      # Set up Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.7
 
-      # Download Plan Artifact
+      # Download the Terraform plan artifact
       - name: Download Terraform Plan
         uses: actions/download-artifact@v3
         with:
           name: tfplan
 
-      # Apply Terraform Configuration
+      # Apply the Terraform configuration
       - name: Terraform Apply
+        env:
+          TF_VAR_master_password: ${{ secrets.DB_MASTER_PASSWORD }} # Inject the secret here
         run: terraform apply -auto-approve tfplan
 
   test-infrastructure:
@@ -96,13 +100,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: apply-terraform
     steps:
-      # Checkout repository
+      # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Run Tests (Placeholder for actual tests)
+      # Run tests (example placeholder)
       - name: Run Terratest
         run: |
           echo "Running infrastructure tests"
-          # Replace this with real Terratest or script-based testing
           go test ./tests/terraform -v
