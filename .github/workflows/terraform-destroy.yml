@@ -1,9 +1,6 @@
-name: "Terraform Auto Apply - emander"
+name: "Terraform Destroy - emander"
 
 on:
-  push:
-    branches:
-      - emander
   workflow_dispatch:
 
 permissions:
