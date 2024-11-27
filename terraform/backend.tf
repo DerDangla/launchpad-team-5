@@ -1,13 +1,15 @@
 terraform {
-  required_version = ">= 1.0.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
 
-  # cloud {
-  #   # The name of your Terraform Cloud organization.
-  #   organization = "emander-org"
-
-  #   # The name of the Terraform Cloud workspace to store Terraform state files in.
-  #   workspaces {
-  #     name = "launchpad-team-5"
-  #   }
-  # }
+  backend "s3" {
+    bucket  = "hackaton-team5-tf-state"
+    key     = "terraform.tfstate"
+    region  = "ca-central-1"
+    encrypt = true
+  }
 }
