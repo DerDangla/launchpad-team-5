@@ -1,6 +1,16 @@
-variable "aws_region" {
-  description = "AWS region"
+variable "vpc_cidr_block" {
+  description = "The CIDR block for the VPC"
   type        = string
+}
+
+variable "public_subnet_cidrs" {
+  description = "List of CIDR blocks for public subnets"
+  type        = list(string)
+}
+
+variable "private_subnet_cidrs" {
+  description = "List of CIDR blocks for private subnets"
+  type        = list(string)
 }
 
 variable "environment" {
@@ -8,8 +18,13 @@ variable "environment" {
   type        = string
 }
 
+variable "secret_name_prefix" {
+  description = "Prefix for the secret name in Secrets Manager"
+  type        = string
+}
+
 variable "cluster_identifier" {
-  description = "Aurora cluster identifier"
+  description = "Identifier for the Aurora PostgreSQL cluster"
   type        = string
 }
 
@@ -30,12 +45,12 @@ variable "master_password" {
 }
 
 variable "instance_type" {
-  description = "Instance type for the Aurora cluster"
+  description = "Instance type for the Aurora cluster instances"
   type        = string
 }
 
 variable "allocated_storage" {
-  description = "Storage allocated to the database in GB"
+  description = "Storage allocated for the database in GB"
   type        = number
 }
 
@@ -50,6 +65,6 @@ variable "backup_retention" {
 }
 
 variable "preferred_maintenance_window" {
-  description = "Preferred maintenance window"
+  description = "Preferred maintenance window for the cluster"
   type        = string
 }
