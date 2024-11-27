@@ -1,1 +1,2 @@
--- Example Query\nSELECT * FROM payee;
+-- Example Query
+SELECT * FROM payee;
