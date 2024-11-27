@@ -1,3 +1,9 @@
+variable "aws_region" {
+  description = "The AWS region where resources will be provisioned"
+  type        = string
+  default     = "ca-central-1"
+}
+
 variable "vpc_cidr_block" {
   description = "The CIDR block for the VPC"
   type        = string
