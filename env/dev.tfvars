@@ -12,6 +12,6 @@ master_username              = "admin"
 master_password              = "devpassword"
 instance_type                = "db.r5.large"
 allocated_storage            = 50
-engine_version               = "13.4"
+engine_version               = "16.4"
 backup_retention             = 7
 preferred_maintenance_window = "sun:05:00-sun:06:00"

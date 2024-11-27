@@ -53,8 +53,8 @@ module "aurora_postgres" {
   db_secret_arn                = module.secrets_manager.db_secret_arn
 }
 
-module "monitoring" {
-  source       = "./modules/monitoring"
-  environment  = var.environment
-  cluster_name = var.cluster_identifier
-}
+# module "monitoring" {
+#   source       = "./modules/monitoring"
+#   environment  = var.environment
+#   cluster_name = var.cluster_identifier
+# }

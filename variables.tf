@@ -64,6 +64,7 @@ variable "allocated_storage" {
 variable "engine_version" {
   description = "Aurora PostgreSQL engine version"
   type        = string
+  default     = "16.4"
 }
 
 variable "backup_retention" {
