@@ -1,10 +1,6 @@
 name: "Terraform Destroy"
 
-on:
-  push:
-    branches:
-      - emander
-  workflow_dispatch:
+on: workflow_dispatch:
 
 permissions:
   id-token: write
