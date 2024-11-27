@@ -5,7 +5,7 @@ environment          = "prod"
 
 cluster_identifier           = "aurora-prod-cluster"
 database_name                = "prod_db"
-master_username              = "admin"
+master_username              = "dbadmin"
 master_password              = "prodpassword"
 instance_type                = "db.r5.large"
 allocated_storage            = 100
