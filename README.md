@@ -140,12 +140,6 @@ To deploy the infrastructure to AWS, you need to configure the AWS CLI.
 
 ---
 
-## Running the Full Workflow
-
-Once you've verified the local setup, you can push changes to GitHub to trigger the CI/CD pipeline defined in `.github/workflows/ci-cd-pipeline.yml`.
-
----
-
 ## Troubleshooting
 
 - **Terraform Not Found**: Ensure Homebrew is installed and `brew install terraform` was successful.
