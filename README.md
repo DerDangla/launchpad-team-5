@@ -64,7 +64,7 @@ Clone the project repository to your local machine.
 
 1. Use Git to clone the repository:
    ```
-   git clone https://github.com/your-repo-name/launchpad-team-5.git
+   git clone https://github.com/DerDangla/launchpad-team-5/launchpad-team-5.git
    cd launchpad-team-5
    ```
 
