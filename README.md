@@ -64,7 +64,7 @@ Clone the project repository to your local machine.
 
 1. Use Git to clone the repository:
    ```
-   git clone https://github.com/your-repo-name/launchpad-team-5.git
+   git clone https://github.com/DerDangla/launchpad-team-5/launchpad-team-5.git
    cd launchpad-team-5
    ```
 
@@ -140,21 +140,8 @@ To deploy the infrastructure to AWS, you need to configure the AWS CLI.
 
 ---
 
-## Running the Full Workflow
-
-Once you've verified the local setup, you can push changes to GitHub to trigger the CI/CD pipeline defined in `.github/workflows/ci-cd-pipeline.yml`.
-
----
-
 ## Troubleshooting
 
 - **Terraform Not Found**: Ensure Homebrew is installed and `brew install terraform` was successful.
 - **AWS CLI Issues**: Verify your AWS credentials and region configuration using `aws configure`.
 - **Terraform Apply Errors**: Check the Terraform output for errors in your configuration.
-
----
-
-## License
-
-MIT License
-
