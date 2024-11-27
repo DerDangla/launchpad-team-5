@@ -13,6 +13,17 @@ variable "database_name" {
   type        = string
 }
 
+variable "master_username" {
+  description = "Master username for the Aurora PostgreSQL cluster"
+  type        = string
+}
+
+variable "master_password" {
+  description = "Master password for the Aurora PostgreSQL cluster"
+  type        = string
+  sensitive   = true
+}
+
 variable "instance_type" {
   description = "Instance type for the Aurora cluster instances"
   type        = string

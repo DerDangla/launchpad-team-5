@@ -40,6 +40,8 @@ module "aurora_postgres" {
   environment                  = var.environment
   cluster_identifier           = var.cluster_identifier
   database_name                = var.database_name
+  master_username              = var.master_username
+  master_password              = var.master_password
   instance_type                = var.instance_type
   allocated_storage            = var.allocated_storage
   engine_version               = var.engine_version
