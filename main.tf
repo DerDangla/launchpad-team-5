@@ -7,10 +7,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "hackaton-team5-tf-state"
-    key     = "terraform.tfstate"
-    region  = "ca-central-1"
-    encrypt = true
+    bucket         = "hackaton-team5-tf-state"
+    key            = "terraform.tfstate"
+    region         = "ca-central-1"
+    encrypt        = true
+    dynamodb_table = "hackaton-team5-tf-state-lock"
   }
 }
 
