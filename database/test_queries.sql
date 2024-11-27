@@ -1,0 +1,1 @@
+-- Example Query\nSELECT * FROM payee;
