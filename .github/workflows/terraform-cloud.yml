@@ -1,52 +1,47 @@
-on: workflow_dispatch
+name: "Terraform Auto Apply"
 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  
 permissions:
   id-token: write
   contents: read
 
 jobs:
   terraform:
-    name: "Terraform"
+    name: Terraform Plan and Apply
     runs-on: ubuntu-latest
-    environment: production
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
-
     steps:
-      # Checkout the repository to the GitHub Actions runner
-      - name: Checkout
-        uses: actions/checkout@v3
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
+      # Step 2: Configure AWS credentials with Assume Role
       - name: Configure AWS Credentials
         id: aws-creds
         uses: aws-actions/configure-aws-credentials@v3
         with:
+          #role-to-assume: arn:aws:iam::730335337132:role/vpn-edangla-role
           role-to-assume: arn:aws:iam::730335337132:role/team5-role
           aws-region: "ca-central-1"
 
-      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      # Step 3: Install Terraform CLI
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          terraform_version: 1.9.5
 
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      # Step 4: Initialize Terraform with Terraform Cloud backend
       - name: Terraform Init
         run: terraform init
 
-      # Checks that all Terraform configuration files adhere to a canonical format
-      - name: Terraform Format
-        run: terraform fmt -check
-
-      # Generates an execution plan for Terraform
+      # Step 5: Terraform Plan
       - name: Terraform Plan
-        run: terraform plan -input=false
+        run: terraform plan -out=tfplan
 
-        # On push to "main", build or change infrastructure according to Terraform configuration files
-        # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+      # Step 6: Terraform Apply (Auto-approve)
       - name: Terraform Apply
-        if: github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve tfplan
