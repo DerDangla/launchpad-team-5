@@ -1,0 +1,40 @@
+name: Deploy to Production
+
+on:
+  workflow_dispatch: # Manual trigger for production deployment
+
+jobs:
+  deploy-prod:
+    name: Deploy to Production Environment
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      # Configure AWS credentials from GitHub Secrets
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Navigate to the prod environment
+      - name: Change Directory to Production Environment
+        run: cd terraform/environments/prod
+
+      # Apply Terraform in the prod environment
+      - name: Terraform Apply (Production)
+        env:
+          TF_VAR_master_password: ${{ secrets.DB_MASTER_PASSWORD_PROD }}
+        run: |
+          terraform init
+          terraform plan -out=tfplan
+          terraform apply -auto-approve tfplan
