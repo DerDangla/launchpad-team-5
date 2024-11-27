@@ -1,14 +1,7 @@
 name: Build and Validate Terraform
 
 on:
-  push:
-    branches:
-      - main
-      - dev
-  pull_request:
-    branches:
-      - main
-      - dev
+  workflow_dispatch:
 
 jobs:
   validate-terraform:
