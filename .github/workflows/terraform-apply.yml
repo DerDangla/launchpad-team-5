@@ -3,7 +3,7 @@ name: "Terraform Auto Apply - emander"
 on:
   push:
     branches:
-      - hire-emander
+      - emander
   workflow_dispatch:
 
 permissions:
