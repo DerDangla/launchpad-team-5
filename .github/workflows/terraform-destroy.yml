@@ -1,4 +1,4 @@
-name: "Terraform Auto Apply - emander"
+name: "Terraform Destroy"
 
 on:
   push:
