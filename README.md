@@ -1,16 +1,19 @@
 # Launchpad Team 5 Project
 
 ## Overview
+
 This project deploys infrastructure and a PostgreSQL database using Terraform and AWS Aurora.
 
 ---
 
 ## Problem Statement
+
 Use “HCL” as a language and “Terraform” as a framework to develop composable module(s) for the below requirement:
+
 - Create a PostgreSQL database (AWS Aurora preferred) with three tables/schema:
-  1. **Payee** (user_id, email, name, phone_number)
-  2. **Transactions** (transaction_id, user_id, transaction_amount, merchant, country, status)
-  3. **Fraud_scores** (score_id, transaction_id, user_id, fraud_score, risk_level)
+  1. **Payee** (user\_id, email, name, phone\_number)
+  2. **Transactions** (transaction\_id, user\_id, transaction\_amount, merchant, country, status)
+  3. **Fraud\_scores** (score\_id, transaction\_id, user\_id, fraud\_score, risk\_level)
 - Consider non-functional requirements for production and non-production environments to develop composable module(s), designed following best practices of scalability & resiliency.
 - Consider a full deployment scenario, including other required (dependency) services for a database (e.g., network, secret management, etc.).
 - Include observability, logging, and security as part of the design, development & deployment.
@@ -22,6 +25,7 @@ Use “HCL” as a language and “Terraform” as a framework to develop compos
 ## Setup on a Clean macOS Installation
 
 ### 1. Install Homebrew
+
 Homebrew is a package manager for macOS that simplifies software installation.
 
 1. Open the Terminal app.
@@ -37,6 +41,7 @@ Homebrew is a package manager for macOS that simplifies software installation.
 ---
 
 ### 2. Install Terraform
+
 Terraform is the infrastructure-as-code tool used for this project.
 
 1. Use Homebrew to install Terraform:
@@ -51,8 +56,68 @@ Terraform is the infrastructure-as-code tool used for this project.
 
 ---
 
-### 3. Set Up AWS CLI
-The AWS CLI is required to interact with AWS resources.
+### 3. Clone the Repository
+
+Clone the project repository to your local machine.
+
+1. Use Git to clone the repository:
+   ```
+   git clone https://github.com/your-repo-name/launchpad-team-5.git
+   cd launchpad-team-5
+   ```
+
+---
+
+### 4. Initialize Terraform
+
+Prepare the Terraform environment.
+
+1. Navigate to the `dev` environment:
+   ```
+   cd terraform/environments/dev
+   ```
+2. Initialize Terraform:
+   ```
+   terraform init
+   ```
+
+---
+
+### 5. Run Basic Terraform Commands
+
+Verify that Terraform is working correctly.
+
+1. Generate a Terraform execution plan:
+
+   ```
+   terraform plan
+   ```
+
+   This command shows the actions Terraform will take to create your infrastructure.
+
+2. Apply the Terraform configuration (without connecting to AWS):
+
+   ```
+   terraform apply -target=null_resource.test
+   ```
+
+   Type `yes` when prompted to confirm.
+
+3. Destroy the infrastructure (for testing purposes):
+
+   ```
+   terraform destroy -target=null_resource.test
+   ```
+
+   Type `yes` when prompted to confirm.
+
+_Note: This allows you to test the syntax and execution of your Terraform scripts without deploying real infrastructure._
+
+---
+
+### 6. Set Up AWS CLI (Optional for Full Deployment)
+
+To deploy the infrastructure to AWS, you need to configure the AWS CLI.
 
 1. Install the AWS CLI using Homebrew:
    ```
@@ -73,66 +138,21 @@ The AWS CLI is required to interact with AWS resources.
 
 ---
 
-### 4. Clone the Repository
-Clone the project repository to your local machine.
-
-1. Use Git to clone the repository:
-   ```
-   git clone https://github.com/your-repo-name/launchpad-team-5.git
-   cd launchpad-team-5
-   ```
-
----
-
-### 5. Initialize Terraform
-Prepare the Terraform environment.
-
-1. Navigate to the `dev` environment:
-   ```
-   cd terraform/environments/dev
-   ```
-2. Initialize Terraform:
-   ```
-   terraform init
-   ```
-
----
-
-### 6. Run Basic Terraform Commands
-Verify that Terraform is working correctly.
-
-1. Generate a Terraform execution plan:
-   ```
-   terraform plan
-   ```
-   This command shows the actions Terraform will take to create your infrastructure.
-
-2. Apply the Terraform configuration:
-   ```
-   terraform apply
-   ```
-   Type `yes` when prompted to confirm.
-
-3. Destroy the infrastructure (for testing purposes):
-   ```
-   terraform destroy
-   ```
-   Type `yes` when prompted to confirm.
-
----
-
 ## Running the Full Workflow
+
 Once you've verified the local setup, you can push changes to GitHub to trigger the CI/CD pipeline defined in `.github/workflows/ci-cd-pipeline.yml`.
 
 ---
 
 ## Troubleshooting
+
 - **Terraform Not Found**: Ensure Homebrew is installed and `brew install terraform` was successful.
 - **AWS CLI Issues**: Verify your AWS credentials and region configuration using `aws configure`.
-- **Terraform Apply Errors**: Check the Terraform output for errors in your configuration or AWS account.
+- **Terraform Apply Errors**: Check the Terraform output for errors in your configuration.
 
 ---
 
 ## License
+
 MIT License
 
