@@ -1,5 +1,7 @@
 # Launchpad Team 5 Project
 
+![Build and Validate](https://github.com/your-repo-name/launchpad-team-5/actions/workflows/build.yml/badge.svg)
+
 ## Overview
 
 This project deploys infrastructure and a PostgreSQL database using Terraform and AWS Aurora.
