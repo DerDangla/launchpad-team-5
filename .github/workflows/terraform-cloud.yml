@@ -12,11 +12,9 @@ jobs:
     name: Terraform Plan and Apply
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Configure AWS credentials with Assume Role
       - name: Configure AWS Credentials
         id: aws-creds
         uses: aws-actions/configure-aws-credentials@v3
@@ -25,20 +23,19 @@ jobs:
           role-to-assume: arn:aws:iam::730335337132:role/team5-role
           aws-region: "ca-central-1"
 
-      # Step 3: Install Terraform CLI
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.9.5
 
-      # Step 4: Initialize Terraform with Terraform Cloud backend
       - name: Terraform Init
+        working-directory: terraform/environments/dev
         run: terraform init
 
-      # Step 5: Terraform Plan
       - name: Terraform Plan
+        working-directory: terraform/environments/dev
         run: terraform plan -out=tfplan
 
-      # Step 6: Terraform Apply (Auto-approve)
       - name: Terraform Apply
+        working-directory: terraform/environments/dev
         run: terraform apply -auto-approve tfplan
