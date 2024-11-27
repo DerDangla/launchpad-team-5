@@ -27,6 +27,7 @@ variable "environment" {
 variable "secret_name_prefix" {
   description = "Prefix for the secret name in Secrets Manager"
   type        = string
+  default     = "default-prefix"
 }
 
 variable "cluster_identifier" {
