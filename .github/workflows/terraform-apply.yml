@@ -1,4 +1,4 @@
-name: "Terraform Auto Apply - emander1"
+name: "Terraform Auto Apply - emander"
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Validate
-        run: terraform validate -var-file="env/dev.tfvars"
+        run: terraform validate
 
       - name: Terraform Plan
         run: terraform plan -var-file="env/dev.tfvars"
