@@ -38,3 +38,21 @@ jobs:
           terraform init
           terraform plan -out=tfplan
           terraform apply -auto-approve tfplan
+
+      # Install PostgreSQL Client
+      - name: Install PostgreSQL Client
+        run: sudo apt-get install -y postgresql-client
+
+      # Run Database Initialization Script
+      - name: Initialize Database Schema
+        env:
+          PGPASSWORD: ${{ secrets.DB_MASTER_PASSWORD_DEV }}
+        run: |
+          psql -h <rds_endpoint> -U <db_user> -d <db_name> -f database/init.sql
+
+      # Verify Database Schema Setup
+      - name: Verify Database Schema
+        env:
+          PGPASSWORD: ${{ secrets.DB_MASTER_PASSWORD_DEV }}
+        run: |
+          echo "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';" | psql -h <rds_endpoint> -U <db_user> -d <db_name>
