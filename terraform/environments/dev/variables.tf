@@ -1,3 +1,5 @@
-terraform {
-  backend "s3" {}
+variable "environment" {
+  description = "Environment name"
+  type        = string
+  default     = "dev"
 }
