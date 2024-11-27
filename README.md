@@ -1,6 +1,6 @@
 # Launchpad Team 5 Project
 
-![Build and Validate](https://github.com/your-repo-name/launchpad-team-5/actions/workflows/build.yml/badge.svg)
+![Build and Validate](https://github.com/DerDangla/launchpad-team-5/actions/workflows/build.yml/badge.svg)
 
 ## Overview
 
