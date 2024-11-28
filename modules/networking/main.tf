@@ -60,18 +60,18 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-# Fetch the main route table for the VPC
-data "aws_default_route_table" "main" {
+# Use the aws_default_route_table resource to manage the default route table
+resource "aws_default_route_table" "main" {
   default_route_table_id = aws_vpc.main.default_route_table_id
-}
 
-# Add a default route to the main route table
-resource "aws_route" "main_default_route" {
-  route_table_id         = data.aws_default_route_table.main.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.main.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main.id
+  }
 
-  depends_on = [aws_internet_gateway.main]
+  tags = {
+    Name = "${var.environment}-default-rt"
+  }
 }
 
 resource "aws_route_table" "public" {
