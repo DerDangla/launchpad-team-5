@@ -50,7 +50,7 @@ module "aurora_postgres" {
   backup_retention             = var.backup_retention
   preferred_maintenance_window = var.preferred_maintenance_window
   vpc_id                       = module.networking.vpc_id
-  private_subnets              = module.networking.private_subnets
+  public_subnets               = module.networking.public_subnets # Pass public subnets
   db_security_group_id         = module.networking.db_security_group_id
   db_secret_arn                = module.secrets_manager.db_secret_arn
   instance_class               = var.instance_class

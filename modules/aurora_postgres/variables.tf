@@ -59,8 +59,13 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "private_subnets" {
-  description = "List of private subnets for the Aurora cluster"
+# variable "private_subnets" {
+#   description = "List of private subnets for the Aurora cluster"
+#   type        = list(string)
+# }
+
+variable "public_subnets" {
+  description = "List of public subnets for Aurora cluster"
   type        = list(string)
 }
 

@@ -20,7 +20,7 @@ resource "aws_rds_cluster" "aurora" {
 # DB Subnet Group
 resource "aws_db_subnet_group" "main" {
   name       = "${var.environment}-db-subnet-group"
-  subnet_ids = var.private_subnets
+  subnet_ids = var.public_subnets # Use public subnets for public accessibility
 
   tags = {
     Name = "${var.environment}-db-subnet-group"
@@ -33,7 +33,7 @@ resource "aws_rds_cluster_instance" "writer" {
   cluster_identifier   = aws_rds_cluster.aurora.id
   instance_class       = var.instance_class
   engine               = "aurora-postgresql"
-  publicly_accessible  = true
+  publicly_accessible  = true # Enable public accessibility
   db_subnet_group_name = aws_db_subnet_group.main.name
   apply_immediately    = true
 
@@ -42,6 +42,7 @@ resource "aws_rds_cluster_instance" "writer" {
   }
 }
 
+# Wait for Endpoints
 resource "null_resource" "wait_for_endpoints" {
   provisioner "local-exec" {
     command = <<EOT
@@ -52,7 +53,7 @@ resource "null_resource" "wait_for_endpoints" {
           break
         fi
         echo "Waiting for endpoints..."
-        sleep 180
+        sleep 150
       done
     EOT
   }
@@ -60,6 +61,7 @@ resource "null_resource" "wait_for_endpoints" {
   depends_on = [aws_rds_cluster.aurora]
 }
 
+# Create Tables
 resource "null_resource" "create_tables" {
   depends_on = [null_resource.wait_for_endpoints]
 
@@ -70,6 +72,8 @@ resource "null_resource" "create_tables" {
   }
 }
 
+
+# # Aurora Cluster
 # resource "aws_rds_cluster" "aurora" {
 #   cluster_identifier           = var.cluster_identifier
 #   engine                       = "aurora-postgresql"
@@ -88,6 +92,7 @@ resource "null_resource" "create_tables" {
 #   }
 # }
 
+# # DB Subnet Group
 # resource "aws_db_subnet_group" "main" {
 #   name       = "${var.environment}-db-subnet-group"
 #   subnet_ids = var.private_subnets
@@ -97,12 +102,32 @@ resource "null_resource" "create_tables" {
 #   }
 # }
 
-# resource "null_resource" "wait_for_cluster" {
+# # Aurora Writer Instance
+# resource "aws_rds_cluster_instance" "writer" {
+#   identifier           = "${var.environment}-aurora-writer"
+#   cluster_identifier   = aws_rds_cluster.aurora.id
+#   instance_class       = var.instance_class
+#   engine               = "aurora-postgresql"
+#   publicly_accessible  = false
+#   db_subnet_group_name = aws_db_subnet_group.main.name
+#   apply_immediately    = true
+
+#   tags = {
+#     Environment = var.environment
+#   }
+# }
+
+# resource "null_resource" "wait_for_endpoints" {
 #   provisioner "local-exec" {
 #     command = <<EOT
-#       while [ "$(aws rds describe-db-clusters --db-cluster-identifier ${aws_rds_cluster.aurora.id} --query 'DBClusters[0].Status' --output text)" != "available" ]; do
-#         echo "Waiting for Aurora cluster to be available..."
-#         sleep 10
+#       while true; do
+#         if nslookup ${aws_rds_cluster.aurora.endpoint} && \
+#            nslookup ${aws_rds_cluster.aurora.reader_endpoint}; then
+#           echo "Endpoints are ready."
+#           break
+#         fi
+#         echo "Waiting for endpoints..."
+#         sleep 180
 #       done
 #     EOT
 #   }
@@ -111,7 +136,7 @@ resource "null_resource" "create_tables" {
 # }
 
 # resource "null_resource" "create_tables" {
-#   depends_on = [null_resource.wait_for_cluster]
+#   depends_on = [null_resource.wait_for_endpoints]
 
 #   provisioner "local-exec" {
 #     command = <<EOT
