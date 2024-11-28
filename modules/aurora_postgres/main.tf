@@ -53,7 +53,7 @@ resource "null_resource" "wait_for_endpoints" {
           echo "Endpoints are ready."
           break
         fi
-        echo "Waiting for endpoints..."
+        echo "Waiting for endpoints.."
         sleep 150
       done
     EOT
@@ -72,7 +72,6 @@ resource "null_resource" "create_tables" {
     EOT
   }
 }
-
 
 # # Aurora Cluster
 # resource "aws_rds_cluster" "aurora" {
