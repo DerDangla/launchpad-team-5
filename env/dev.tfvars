@@ -6,7 +6,7 @@ private_subnet_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
 availability_zones   = ["ca-central-1a", "ca-central-1b"]
 environment          = "dev"
 
-secret_name_prefix           = "hacteam5"
+secret_name_prefix           = "hkteam5"
 cluster_identifier           = "aurora-dev-cluster"
 database_name                = "dev_db"
 master_username              = "dbadmin"
