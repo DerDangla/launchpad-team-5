@@ -17,29 +17,28 @@ resource "aws_rds_cluster" "aurora" {
   }
 }
 
-# DB Subnet Group
 resource "aws_db_subnet_group" "main" {
   name       = "${var.environment}-db-subnet-group"
-  subnet_ids = var.public_subnets # Use public subnets for public accessibility
+  subnet_ids = var.public_subnets
 
   tags = {
     Name = "${var.environment}-db-subnet-group"
   }
 }
 
-# Aurora Writer Instance
 resource "aws_rds_cluster_instance" "writer" {
   identifier           = "${var.environment}-aurora-writer"
   cluster_identifier   = aws_rds_cluster.aurora.id
   instance_class       = var.instance_class
   engine               = "aurora-postgresql"
-  publicly_accessible  = true # Enable public accessibility
+  publicly_accessible  = true
   db_subnet_group_name = aws_db_subnet_group.main.name
   apply_immediately    = true
 
   tags = {
     Environment = var.environment
   }
+
   depends_on = [aws_rds_cluster.aurora]
 }
 
