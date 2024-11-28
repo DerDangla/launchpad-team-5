@@ -82,3 +82,9 @@ variable "availability_zones" {
   description = "List of availability zones for the VPC subnets"
   type        = list(string)
 }
+
+variable "instance_class" {
+  description = "Instance class for the Aurora DB instances"
+  type        = string
+  default     = "db.r5.large" # Adjust based on your requirements
+}

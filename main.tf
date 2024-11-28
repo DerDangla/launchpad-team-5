@@ -53,6 +53,7 @@ module "aurora_postgres" {
   private_subnets              = module.networking.private_subnets
   db_security_group_id         = module.networking.db_security_group_id
   db_secret_arn                = module.secrets_manager.db_secret_arn
+  instance_class               = var.instance_class
 }
 
 # module "monitoring" {

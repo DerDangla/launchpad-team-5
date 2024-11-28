@@ -3,6 +3,11 @@ variable "environment" {
   type        = string
 }
 
+variable "instance_class" {
+  description = "Instance class for the Aurora DB instances"
+  type        = string
+}
+
 variable "cluster_identifier" {
   description = "Identifier for the Aurora PostgreSQL cluster"
   type        = string
