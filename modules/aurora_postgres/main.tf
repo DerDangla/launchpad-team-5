@@ -40,6 +40,7 @@ resource "aws_rds_cluster_instance" "writer" {
   tags = {
     Environment = var.environment
   }
+  depends_on = [aws_rds_cluster.aurora]
 }
 
 # Wait for Endpoints
@@ -58,7 +59,7 @@ resource "null_resource" "wait_for_endpoints" {
     EOT
   }
 
-  depends_on = [aws_rds_cluster.aurora]
+  depends_on = [aws_rds_cluster_instance.writer]
 }
 
 # Create Tables
