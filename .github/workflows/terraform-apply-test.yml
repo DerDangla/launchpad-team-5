@@ -1,6 +1,9 @@
-name: "Terraform Auto Apply - emander"
+name: "Terraform Auto Apply - test"
 
 on:
+  push:
+    branches:
+      - test
   workflow_dispatch:
 
 permissions:
@@ -34,7 +37,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -var-file="env/dev.tfvars"
+        run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-        run: terraform apply -var-file="env/dev.tfvars" -auto-approve
+        run: terraform apply -auto-approve tfplan

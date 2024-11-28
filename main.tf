@@ -7,57 +7,49 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "hackaton-team5-tf-state"
+    bucket         = "hackaton-team5-tf-state-test"
     key            = "terraform.tfstate"
     region         = "ca-central-1"
     encrypt        = true
-    dynamodb_table = "hackaton-team5-tf-state-lock"
+    dynamodb_table = "hackaton-team5-tf-state-lock-test"
   }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = "ca-central-1" # Replace with your desired AWS region
 }
 
-module "networking" {
-  source               = "./modules/networking"
-  vpc_cidr_block       = var.vpc_cidr_block
-  public_subnet_cidrs  = var.public_subnet_cidrs
-  private_subnet_cidrs = var.private_subnet_cidrs
-  environment          = var.environment
-  availability_zones   = var.availability_zones
+resource "aws_rds_cluster" "aurora_cluster" {
+  cluster_identifier      = "aurora-postgres-cluster"
+  engine                  = "aurora-postgresql"
+  engine_mode             = "provisioned"
+  master_username         = "admin"
+  master_password         = "password123" # Use sensitive variables in real scenarios
+  backup_retention_period = 7
+  preferred_backup_window = "07:00-09:00"
+  availability_zones      = ["us-east-1a", "us-east-1b"] # Replace with your AZs
 }
 
-module "secrets_manager" {
-  source             = "./modules/secrets_manager"
-  environment        = var.environment
-  secret_name_prefix = var.secret_name_prefix
-  master_username    = var.master_username
-  master_password    = var.master_password
+resource "aws_rds_cluster_instance" "aurora_instance" {
+  count               = 2
+  identifier          = "aurora-postgres-instance-${count.index + 1}"
+  cluster_identifier  = aws_rds_cluster.aurora_cluster.id
+  instance_class      = "db.r5.large"
+  engine              = aws_rds_cluster.aurora_cluster.engine
+  publicly_accessible = false
 }
 
-module "aurora_postgres" {
-  source = "./modules/aurora_postgres"
+resource "null_resource" "initialize_schema" {
+  depends_on = [aws_rds_cluster.aurora_cluster]
 
-  environment                  = var.environment
-  cluster_identifier           = var.cluster_identifier
-  database_name                = var.database_name
-  master_username              = var.master_username
-  master_password              = var.master_password
-  instance_type                = var.instance_type
-  allocated_storage            = var.allocated_storage
-  engine_version               = var.engine_version
-  backup_retention             = var.backup_retention
-  preferred_maintenance_window = var.preferred_maintenance_window
-  vpc_id                       = module.networking.vpc_id
-  private_subnets              = module.networking.private_subnets
-  db_security_group_id         = module.networking.db_security_group_id
-  db_secret_arn                = module.secrets_manager.db_secret_arn
-  instance_class               = var.instance_class
+  provisioner "local-exec" {
+    command = <<EOT
+      PGPASSWORD=password123 psql \
+        --host=${aws_rds_cluster.aurora_cluster.endpoint} \
+        --port=5432 \
+        --username=admin \
+        --dbname=postgres \
+        --file=schema.sql
+    EOT
+  }
 }
-
-# module "monitoring" {
-#   source       = "./modules/monitoring"
-#   environment  = var.environment
-#   cluster_name = var.cluster_identifier
-# }
