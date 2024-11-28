@@ -10,6 +10,3 @@ resource "aws_secretsmanager_secret_version" "db_credentials_version" {
   })
 }
 
-output "db_secret_arn" {
-  value = aws_secretsmanager_secret.db_credentials.arn
-}
