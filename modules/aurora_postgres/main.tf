@@ -52,7 +52,7 @@ resource "null_resource" "wait_for_endpoints" {
           break
         fi
         echo "Waiting for endpoints..."
-        sleep 120
+        sleep 180
       done
     EOT
   }
