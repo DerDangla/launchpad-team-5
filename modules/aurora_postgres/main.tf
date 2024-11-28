@@ -25,8 +25,22 @@ resource "aws_db_subnet_group" "main" {
   }
 }
 
-resource "null_resource" "create_tables" {
+resource "null_resource" "wait_for_cluster" {
+  provisioner "local-exec" {
+    command = <<EOT
+      while [ "$(aws rds describe-db-clusters --db-cluster-identifier ${aws_rds_cluster.aurora.id} --query 'DBClusters[0].Status' --output text)" != "available" ]; do
+        echo "Waiting for Aurora cluster to be available..."
+        sleep 10
+      done
+    EOT
+  }
+
   depends_on = [aws_rds_cluster.aurora]
+}
+
+resource "null_resource" "create_tables" {
+  depends_on = [null_resource.wait_for_cluster]
+
   provisioner "local-exec" {
     command = <<EOT
       PGPASSWORD=${var.master_password} psql -h ${aws_rds_cluster.aurora.endpoint} -U ${var.master_username} -d ${var.database_name} -f ./schema.sql
