@@ -13,9 +13,9 @@ This project deploys infrastructure and a PostgreSQL database using Terraform an
 Use “HCL” as a language and “Terraform” as a framework to develop composable module(s) for the below requirement:
 
 - Create a PostgreSQL database (AWS Aurora preferred) with three tables/schema:
-  1. **Payee** (user\_id, email, name, phone\_number)
-  2. **Transactions** (transaction\_id, user\_id, transaction\_amount, merchant, country, status)
-  3. **Fraud\_scores** (score\_id, transaction\_id, user\_id, fraud\_score, risk\_level)
+  1. **Payee** (user_id, email, name, phone_number)
+  2. **Transactions** (transaction_id, user_id, transaction_amount, merchant, country, status)
+  3. **Fraud_scores** (score_id, transaction_id, user_id, fraud_score, risk_level)
 - Consider non-functional requirements for production and non-production environments to develop composable module(s), designed following best practices of scalability & resiliency.
 - Consider a full deployment scenario, including other required (dependency) services for a database (e.g., network, secret management, etc.).
 - Include observability, logging, and security as part of the design, development & deployment.
@@ -136,7 +136,7 @@ To deploy the infrastructure to AWS, you need to configure the AWS CLI.
    Provide your:
    - AWS Access Key ID
    - AWS Secret Access Key
-   - Default region (e.g., `us-east-1`)
+   - Default region (e.g., `ca-central-1`)
 
 ---
 
@@ -157,4 +157,3 @@ Once you've verified the local setup, you can push changes to GitHub to trigger 
 ## License
 
 MIT License
-
