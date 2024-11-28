@@ -21,18 +21,3 @@ jobs:
           output-file: README.md
           output-method: inject
           git-push: "true"
-
-      - name: Find and Render Terraform Docs for All Modules
-        run: |
-          for dir in $(find . -type d -name 'modules/*'); do
-            echo "Generating terraform docs for $dir"
-            terraform-docs markdown table --output-file $dir/README.md --output-method inject $dir
-          done
-
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add .
-          git commit -m "Update Terraform Docs for all modules" || echo "No changes to commit"
-          git push

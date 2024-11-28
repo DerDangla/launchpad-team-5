@@ -1,9 +1,6 @@
-name: "Terraform Auto Apply - emander"
+name: "Terraform Auto Apply 2"
 
 on:
-  # push:
-  #   branches:
-  #     - emander
   workflow_dispatch:
 
 permissions:

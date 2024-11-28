@@ -1,4 +1,4 @@
-name: "Terraform Destroy - emander"
+name: "Terraform Destroy"
 
 on:
   workflow_dispatch:
