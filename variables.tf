@@ -77,3 +77,8 @@ variable "preferred_maintenance_window" {
   description = "Preferred maintenance window for the cluster"
   type        = string
 }
+
+variable "availability_zones" {
+  description = "List of availability zones for the VPC subnets"
+  type        = list(string)
+}
