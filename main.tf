@@ -20,6 +20,7 @@ provider "aws" {
 }
 
 resource "aws_rds_cluster" "aurora_cluster" {
+  allocated_storage       = var.allocated_storage
   cluster_identifier      = "aurora-postgres-cluster"
   engine                  = "aurora-postgresql"
   engine_mode             = "provisioned"
@@ -27,7 +28,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   master_password         = "password123" # Use sensitive variables in real scenarios
   backup_retention_period = 7
   preferred_backup_window = "07:00-09:00"
-  availability_zones      = ["us-east-1a", "us-east-1b"] # Replace with your AZs
+  availability_zones      = ["ca-canada-1a", "ca-canada-1b"] # Replace with your AZs
 }
 
 resource "aws_rds_cluster_instance" "aurora_instance" {
