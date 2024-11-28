@@ -33,7 +33,7 @@ resource "aws_rds_cluster_instance" "writer" {
   cluster_identifier   = aws_rds_cluster.aurora.id
   instance_class       = var.instance_class
   engine               = "aurora-postgresql"
-  publicly_accessible  = false
+  publicly_accessible  = true
   db_subnet_group_name = aws_db_subnet_group.main.name
   apply_immediately    = true
 
@@ -69,7 +69,6 @@ resource "null_resource" "create_tables" {
     EOT
   }
 }
-
 
 # resource "aws_rds_cluster" "aurora" {
 #   cluster_identifier           = var.cluster_identifier
