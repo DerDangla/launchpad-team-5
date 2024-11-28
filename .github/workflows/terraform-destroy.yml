@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   terraform:
-    name: Terraform Plan and Apply
+    name: Terraform Plan and Destroy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code

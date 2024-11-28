@@ -9,6 +9,7 @@ resource "aws_rds_cluster" "aurora" {
   preferred_maintenance_window = var.preferred_maintenance_window
   vpc_security_group_ids       = [var.db_security_group_id]
   db_subnet_group_name         = aws_db_subnet_group.main.name
+  skip_final_snapshot          = true
 
   tags = {
     Environment = var.environment
