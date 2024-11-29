@@ -6,7 +6,7 @@ private_subnet_cidrs = ["10.1.3.0/24", "10.1.4.0/24"]
 availability_zones   = ["ca-central-1a", "ca-central-1b"]
 environment          = "prod"
 
-secret_name_prefix           = "team5hackss"
+secret_name_prefix           = "team5hacksss"
 cluster_identifier           = "aurora-prod-cluster"
 database_name                = "prod_db"
 master_username              = "dbadmin"

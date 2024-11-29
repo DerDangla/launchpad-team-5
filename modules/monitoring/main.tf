@@ -45,11 +45,12 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
   namespace           = "AWS/RDS"
   period              = 300
   statistic           = "Average"
-  threshold           = 80
-  alarm_description   = "Triggered when Aurora CPU utilization exceeds 80% for 10 minutes"
+  threshold           = var.cpu_threshold
+  alarm_description   = "Triggered when Aurora CPU utilization exceeds ${var.cpu_threshold}% for 10 minutes"
   dimensions = {
     DBClusterIdentifier = var.cluster_name
   }
+
   tags = {
     Environment = var.environment
   }
@@ -63,11 +64,12 @@ resource "aws_cloudwatch_metric_alarm" "low_free_storage_space" {
   namespace           = "AWS/RDS"
   period              = 300
   statistic           = "Average"
-  threshold           = 1000000000 # 1 GB
-  alarm_description   = "Triggered when Aurora free storage space falls below 1 GB"
+  threshold           = var.storage_threshold
+  alarm_description   = "Triggered when Aurora free storage space falls below ${var.storage_threshold} bytes"
   dimensions = {
     DBClusterIdentifier = var.cluster_name
   }
+
   tags = {
     Environment = var.environment
   }
@@ -81,11 +83,12 @@ resource "aws_cloudwatch_metric_alarm" "high_db_connections" {
   namespace           = "AWS/RDS"
   period              = 300
   statistic           = "Average"
-  threshold           = 100
-  alarm_description   = "Triggered when Aurora database connections exceed 100"
+  threshold           = var.db_connections_threshold
+  alarm_description   = "Triggered when Aurora database connections exceed ${var.db_connections_threshold}"
   dimensions = {
     DBClusterIdentifier = var.cluster_name
   }
+
   tags = {
     Environment = var.environment
   }
