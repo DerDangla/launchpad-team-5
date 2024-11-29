@@ -52,7 +52,7 @@ module "aurora_postgres" {
   vpc_id                       = module.networking.vpc_id
   public_subnets               = module.networking.public_subnets
   db_security_group_id         = module.networking.db_security_group_id
-  db_secret_arn                = module.secrets_manager.db_secret_arn
+  db_secret_arn                = module.secrets_manager.db_credentials_secret_arn
   instance_class               = var.instance_class
 }
 
