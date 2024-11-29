@@ -14,7 +14,6 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_aurora_postgres"></a> [aurora\_postgres](#module\_aurora\_postgres) | ./modules/aurora_postgres | n/a |
-| <a name="module_monitoring"></a> [monitoring](#module\_monitoring) | ./modules/monitoring | n/a |
 | <a name="module_networking"></a> [networking](#module\_networking) | ./modules/networking | n/a |
 | <a name="module_secrets_manager"></a> [secrets\_manager](#module\_secrets\_manager) | ./modules/secrets_manager | n/a |
 
