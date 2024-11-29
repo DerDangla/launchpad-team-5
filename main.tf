@@ -56,8 +56,12 @@ module "aurora_postgres" {
   instance_class               = var.instance_class
 }
 
-# module "monitoring" {
-#   source       = "./modules/monitoring"
-#   environment  = var.environment
-#   cluster_name = var.cluster_identifier
-# }
+module "monitoring" {
+  source                   = "./modules/monitoring"
+  environment              = var.environment
+  cluster_name             = var.cluster_identifier
+  log_retention_in_days    = var.log_retention_in_days
+  cpu_threshold            = var.cpu_threshold
+  storage_threshold        = var.storage_threshold
+  db_connections_threshold = var.db_connections_threshold
+}

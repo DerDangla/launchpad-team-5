@@ -1,11 +1,10 @@
 variable "aws_region" {
-  description = "The AWS region where resources will be provisioned"
+  description = "AWS region for the resources"
   type        = string
-  default     = "ca-central-1"
 }
 
 variable "vpc_cidr_block" {
-  description = "The CIDR block for the VPC"
+  description = "CIDR block for the VPC"
   type        = string
 }
 
@@ -19,31 +18,24 @@ variable "private_subnet_cidrs" {
   type        = list(string)
 }
 
+variable "availability_zones" {
+  description = "List of availability zones for the subnets"
+  type        = list(string)
+}
+
 variable "environment" {
-  description = "Environment name (e.g., dev, prod)"
+  description = "Deployment environment (e.g., dev, prod)"
   type        = string
 }
 
 variable "secret_name_prefix" {
-  description = "Prefix for the secret name in Secrets Manager"
-  type        = string
-  default     = "default-prefix"
-}
-
-variable "cluster_identifier" {
-  description = "Identifier for the Aurora PostgreSQL cluster"
-  type        = string
-}
-
-variable "database_name" {
-  description = "Database name"
+  description = "Prefix for the Secrets Manager secret name"
   type        = string
 }
 
 variable "master_username" {
   description = "Master username for the database"
   type        = string
-  default     = "dbadmin"
 }
 
 variable "master_password" {
@@ -52,20 +44,29 @@ variable "master_password" {
   sensitive   = true
 }
 
+variable "cluster_identifier" {
+  description = "Identifier for the Aurora PostgreSQL cluster"
+  type        = string
+}
+
+variable "database_name" {
+  description = "Name of the database"
+  type        = string
+}
+
 variable "instance_type" {
   description = "Instance type for the Aurora cluster instances"
   type        = string
 }
 
 variable "allocated_storage" {
-  description = "Storage allocated for the database in GB"
+  description = "Allocated storage size in GB"
   type        = number
 }
 
 variable "engine_version" {
   description = "Aurora PostgreSQL engine version"
   type        = string
-  default     = "16.4"
 }
 
 variable "backup_retention" {
@@ -78,13 +79,32 @@ variable "preferred_maintenance_window" {
   type        = string
 }
 
-variable "availability_zones" {
-  description = "List of availability zones for the VPC subnets"
-  type        = list(string)
+variable "log_retention_in_days" {
+  description = "Number of days to retain logs in CloudWatch"
+  type        = number
+  default     = 30
+}
+
+variable "cpu_threshold" {
+  description = "Threshold for triggering high CPU utilization alarm"
+  type        = number
+  default     = 80
+}
+
+variable "storage_threshold" {
+  description = "Threshold (in bytes) for triggering low free storage space alarm"
+  type        = number
+  default     = 1000000000
+}
+
+variable "db_connections_threshold" {
+  description = "Threshold for triggering high database connections alarm"
+  type        = number
+  default     = 100
 }
 
 variable "instance_class" {
   description = "Instance class for the Aurora DB instances"
   type        = string
-  default     = "db.r5.large" # Adjust based on your requirements
+  default     = "db.r5.large"
 }

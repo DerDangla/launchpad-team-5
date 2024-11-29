@@ -43,7 +43,7 @@ resource "aws_rds_cluster_instance" "writer" {
 
 resource "time_sleep" "wait_for_endpoints" {
   depends_on      = [aws_rds_cluster_instance.writer]
-  create_duration = "2m"
+  create_duration = "1m"
 }
 
 resource "null_resource" "create_tables" {
