@@ -21,3 +21,15 @@ The Aurora Postgres module provisions an Amazon Aurora PostgreSQL RDS cluster al
 | <a name="input_public_subnet_cidrs"></a> [public\_subnet\_cidrs](#input\_public\_subnet\_cidrs) | List of CIDR blocks for public subnets | `list(string)` | n/a | yes |
 | <a name="input_secret_name_prefix"></a> [secret\_name\_prefix](#input\_secret\_name\_prefix) | Prefix for the secret name in Secrets Manager | `string` | `"default-prefix"` | no |
 | <a name="input_vpc_cidr_block"></a> [vpc\_cidr\_block](#input\_vpc\_cidr\_block) | The CIDR block for the VPC | `string` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_aurora_cluster_endpoint"></a> [aurora\_cluster\_endpoint](#output\_aurora\_cluster\_endpoint) | The writer endpoint for the Aurora cluster. |
+| <a name="output_aurora_cluster_id"></a> [aurora\_cluster\_id](#output\_aurora\_cluster\_id) | The ID of the Aurora cluster. |
+| <a name="output_aurora_database_name"></a> [aurora\_database\_name](#output\_aurora\_database\_name) | The database name for the Aurora cluster. |
+| <a name="output_aurora_reader_endpoint"></a> [aurora\_reader\_endpoint](#output\_aurora\_reader\_endpoint) | The reader endpoint for the Aurora cluster. |
+| <a name="output_aurora_writer_instance_id"></a> [aurora\_writer\_instance\_id](#output\_aurora\_writer\_instance\_id) | The ID of the Aurora writer instance. |
+| <a name="output_db_subnet_group_name"></a> [db\_subnet\_group\_name](#output\_db\_subnet\_group\_name) | The name of the DB subnet group used by Aurora. |
+| <a name="output_environment"></a> [environment](#output\_environment) | The deployment environment. |
