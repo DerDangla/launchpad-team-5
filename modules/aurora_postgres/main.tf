@@ -25,8 +25,9 @@ resource "aws_db_subnet_group" "main" {
   }
 }
 
-resource "aws_rds_cluster_instance" "writer" {
-  identifier           = "${var.environment}-aurora-writer"
+resource "aws_rds_cluster_instance" "reader" {
+  count                = var.reader_instance_count
+  identifier           = "${var.environment}-aurora-reader-${count.index}"
   cluster_identifier   = aws_rds_cluster.aurora.id
   instance_class       = var.instance_class
   engine               = "aurora-postgresql"
@@ -37,30 +38,15 @@ resource "aws_rds_cluster_instance" "writer" {
   tags = {
     Environment = var.environment
   }
-
-  depends_on = [aws_rds_cluster.aurora]
 }
 
-resource "null_resource" "wait_for_endpoints" {
-  provisioner "local-exec" {
-    command = <<EOT
-      while true; do
-        if nslookup ${aws_rds_cluster.aurora.endpoint} && \
-           nslookup ${aws_rds_cluster.aurora.reader_endpoint}; then
-          echo "Endpoints are ready."
-          break
-        fi
-        echo "Waiting for endpoints.."
-        sleep 150
-      done
-    EOT
-  }
-
-  depends_on = [aws_rds_cluster_instance.writer]
+resource "time_sleep" "wait_for_endpoints" {
+  depends_on      = [aws_rds_cluster_instance.writer]
+  create_duration = "2m"
 }
 
 resource "null_resource" "create_tables" {
-  depends_on = [null_resource.wait_for_endpoints]
+  depends_on = [time_sleep.wait_for_endpoints]
 
   provisioner "local-exec" {
     command = <<EOT

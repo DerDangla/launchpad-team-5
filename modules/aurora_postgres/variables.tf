@@ -73,3 +73,9 @@ variable "db_secret_arn" {
   description = "ARN of the Secrets Manager secret storing database credentials"
   type        = string
 }
+
+variable "reader_instance_count" {
+  description = "Number of Aurora reader instances"
+  type        = number
+  default     = 1
+}
