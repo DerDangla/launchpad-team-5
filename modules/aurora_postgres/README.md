@@ -1,6 +1,6 @@
 # Aurora Postgres Module
 
-This Aurora Postgres module provisions an Amazon Aurora PostgreSQL RDS cluster along with supporting infrastructure and initialization steps. It creates the RDS cluster, a database subnet group, and an RDS cluster writer instance with specified configurations such as engine version, backup retention, and security group association. It also ensures the RDS endpoints are ready before running a SQL script to initialize the database schema.
+The Aurora Postgres module provisions an Amazon Aurora PostgreSQL RDS cluster along with supporting infrastructure and initialization steps. It creates the RDS cluster, a database subnet group, and an RDS cluster writer instance with specified configurations such as engine version, backup retention, and security group association. It also ensures the RDS endpoints are ready before running a SQL script to initialize the database schema.
 
 ## Module Inputs
 
